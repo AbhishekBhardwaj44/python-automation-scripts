@@ -1,0 +1,19 @@
+#!/usr/bin/env python3.9
+
+import argparse
+import sys
+import os
+import boto3
+#This is used to terminate ec2 instance
+parser= argparse.ArgumentParser(description="pythons3 bucket", prog="ec2terminate",epilog="Created by Networknuts Abhishek")
+parser.add_argument("instance_id",help="The path of the file/files to upload")
+parser.add_argument("--version","-v",action="version",version="1.0 by Abhishek")
+
+args=parser.parse_args()
+
+ec2=boto3.resource("ec2")
+instance=ec2.Instance(args.instance_id)
+instance.terminate()
+print ("instance terminated successfully")
+
+

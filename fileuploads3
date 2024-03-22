@@ -1,0 +1,34 @@
+#!/usr/bin/env python3.9
+ 
+import argparse
+import sys
+import os
+import boto3
+
+#This is used to upload files to s3 bucket
+#command
+
+parser = argparse.ArgumentParser(description="python command to upload files to aws s3 bucket", prog="uploadfiles3",epilog="Created by Networknuts Abhishek")
+
+parser.add_argument("filepath",help="The path of the file/files to upload")
+parser.add_argument("bucket_name", help= "The name of bucket")
+parser.add_argument("--version","-v",action="version",version="1.0 by Abhishek")
+
+args = parser.parse_args()
+
+s3= boto3.client('s3')
+
+file = os.listdir(args.filepath)
+
+n = 0
+
+for filename in file:
+    absolute_path = os.path.join(args.filepath,filename)
+    n= n+1
+    if os.path.isfile(absolute_path):
+       s3.upload_file(absolute_path,args.bucket_name,filename)
+       print (f"{filename} -----------> {args.bucket_name}")
+
+
+print(f"Total {n}  objects uploaded")
+
